@@ -1,0 +1,284 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml" xmlns:v="urn:schemas-microsoft-com:vml"
+    xmlns:o="urn:schemas-microsoft-com:office:office">
+
+<head>
+    <meta dir="ltr" charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="x-apple-disable-message-reformatting">
+    <title>Testimonials</title>
+    <style type="text/css" rel="stylesheet">
+        * {
+            box-sizing: border-box;
+        }
+
+        a {
+            text-decoration: none;
+            cursor: pointer;
+        }
+
+        .row {
+            display: -webkit-box;
+            display: -ms-flexbox;
+            display: flex;
+            -ms-flex-wrap: wrap;
+            flex-wrap: wrap;
+        }
+
+        @font-face {
+            font-family: PlayfairDisplay;
+            src: url(fonts/PlayfairDisplay-Regular.otf);
+        }
+
+        @font-face {
+            font-family: WorkSans;
+            src: url(fonts/Work/WorkSans-Regular.otf);
+        }
+
+        body {
+            margin: 0 !important;
+            padding: 0 !important;
+            height: 100% !important;
+            width: 100% !important;
+            font-family: WorkSans, Arial, Helvetica, sans-serif;
+            background: #f1f1f1;
+            font-size: 15px;
+            color: #2e383f;
+            font-weight: 400;
+        }
+
+        #testimonials {
+            margin: auto;
+            margin-top: 30px;
+            border: 1px solid #dddddd;
+            padding: 15px;
+            border-radius: 15px;
+            width: 80%;
+            min-height: 500px;
+            background-color: #ffffff;
+        }
+
+        #testimonials h1 {
+            text-align: center;
+            color: #4e5255;
+            font-size: 42px;
+            font-weight: bolder;
+        }
+
+        #test-pagers {
+            width: 40%;
+            height: 350px;
+            padding: 15px;
+            color: #adadad;
+        }
+
+        #test-container {
+            width: 60%;
+            padding: 15px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .pager {
+            height: 120px;
+            display: block;
+        }
+
+        .pager .customer-img {
+            width: 50%;
+            text-align: right;
+            padding: 10px;
+            opacity: 0.4;
+        }
+
+        .pager.active .customer-img {
+            opacity: 1;
+        }
+
+        .pager.pager.active {
+            color: #2e383f !important;
+        }
+
+        .pager .customer-info {
+            width: 50%;
+            text-align: left;
+            padding: 10px;
+            padding-top: 30px;
+        }
+
+        .customer-name {
+            font-size: 18px;
+            font-weight: bold;
+            display: block;
+        }
+
+        .customer-title {
+            font-size: 14px;
+            font-family: PlayfairDisplay, Arial, Helvetica, sans-serif;
+            display: block;
+        }
+
+        #testimonials .testimonial {
+            position: absolute;
+            left: 0px;
+            top: 0px;
+            width: 100%;
+            z-index: 1;
+            height: 350px;
+            padding: 15px;
+        }
+
+        #testimonials h3 {
+            font-size: 28px;
+            font-weight: 400;
+            letter-spacing: 2;
+            font-family: PlayfairDisplay, Arial, Helvetica, sans-serif;
+        }
+
+        #testimonials p {
+            font-size: 18px;
+            font-weight: 400;
+            line-height: 26px;
+            color: #2e383f;
+        }
+
+        .text-align-center {
+            text-align: center;
+        }
+    </style>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script type="text/javascript">
+        jQuery(document).ready(function ($) {
+            var w, mHeight, tests = $("#testimonials");
+            w = tests.outerWidth();
+            mHeight = 0;
+            tests.find(".testimonial").each(function (index) {
+                $("#test-pagers").find(".pager:eq(0)").addClass("active");	//make the first pager active initially
+                if (index == 0)
+                    $(this).addClass("active");	//make the first slide active initially
+                if ($(this).height() > mHeight)	//just finding the max height of the slides
+                    mHeight = $(this).height();
+                var l = index * w;				//find the top position of each slide
+                $(this).css("top", l);			//set the top position
+                tests.find("#test_container").height(mHeight);	//make the height of the slider equal to the max height of the slides
+            });
+            $(".pager").on("click", function (e) {	//clicking action for pagination
+                e.preventDefault();
+                next = $(this).index(".pager");
+                clearInterval(t_int);	//clicking stops the autoplay we will define later
+                moveIt(next);
+            });
+            var t_int = setInterval(function () {	//for autoplay
+                var i = $(".testimonial.active").index(".testimonial");
+                if (i == $(".testimonial").length - 1)
+                    next = 0;
+                else
+                    next = i + 1;
+                moveIt(next);
+            }, 2000);
+        });
+        function moveIt(next) {	//the main sliding function
+            var c = parseInt($(".testimonial.active").removeClass("active").css("top"));	//current position
+            var n = parseInt($(".testimonial").eq(next).addClass("active").css("top"));	//new position
+            $(".testimonial").each(function () {	//shift each slide
+                if (n > c)
+                    $(this).animate({ 'top': '-=' + (n - c) + 'px' });
+                else
+                    $(this).animate({ 'top': '+=' + Math.abs(n - c) + 'px' });
+            });
+            $(".pager.active").removeClass("active");	//very basic
+            $("#test-pagers").find(".pager").eq(next).addClass("active");	//very basic
+        }
+    </script>
+
+</head>
+
+<body>
+    <div id="testimonials">
+        <h1>Delighted Customers, Delighted Firms</h1>
+        <div class="row">
+            <div id="test-pagers">
+                <a class="pager">
+                    <div class="row">
+                        <div class="customer-img">
+                            <img src="images/male-active.png" alt="" style="width: 90px;height: 90px;">
+                        </div>
+                        <div class="customer-info">
+                            <span class="customer-name">Bob Ispum</span>
+                            <span class="customer-title">Title Here</span>
+                        </div>
+                    </div>
+                </a>
+
+                <a class="pager">
+                    <div class="row">
+                        <div class="customer-img">
+                            <img src="images/female-active.png" alt="" style="width: 90px;height: 90px;">
+                        </div>
+                        <div class="customer-info">
+                            <span class="customer-name">Sue Ispum</span>
+                            <span class="customer-title">Title Here</span>
+                        </div>
+                    </div>
+                </a>
+
+                <a class="pager">
+                    <div class="row">
+                        <div class="customer-img">
+                            <img src="images/male-active.png" alt="" style="width: 90px;height: 90px;">
+                        </div>
+                        <div class="customer-info">
+                            <span class="customer-name">Darius Ipsum</span>
+                            <span class="customer-title">Title Here</span>
+                        </div>
+                    </div>
+                </a>
+
+
+            </div>
+            <div id="test-container">
+                <div class="testimonial">
+                    <h3>Lorem ipsum dolor sit amet</h3>
+                    <div class="stars">
+                        <img src="images/5-stars.svg" alt="" style="width:auto;">
+                    </div>
+                    <p>
+                        “Consectetur adipiscing elit. Nulla gravida, risus vitae ullamcorper feugiat, lacus enim dictum
+                        elit, ut tincidunt libero augue vel turpis. Cras elementum massa ipsum, pretium pellentesque
+                        quam placerat non.”
+                    </p>
+                </div>
+
+                <div class="testimonial">
+                    <h3>Nulla fermentum lectus diam, sed molestie sapien hendrerit at</h3>
+                    <div class="stars">
+                        <img src="images/5-stars.svg" alt="" style="width:auto;">
+                    </div>
+                    <p>
+                        "Nullam auctor ultricies bibendum. Nam congue ligula lacus. Nullam malesuada leo eu purus tempor
+                        molestie. Aliquam erat volutpat. Integer sed vehicula enim, ac pretium turpis. Nunc lorem lacus,
+                        rhoncus id finibus eu, pretium elementum diam. Etiam a lectus sit amet metus commodo viverra id
+                        et eros."
+                    </p>
+                </div>
+
+                <div class="testimonial">
+                    <h3>Donec pulvinar mauris vulputate sapien gravida commodo</h3>
+                    <div class="stars">
+                        <img src="images/5-stars.svg" alt="" style="width:auto;">
+                    </div>
+                    <p>
+                        "Nulla vel libero posuere lectus interdum fermentum. Suspendisse facilisis lectus nec nulla
+                        pellentesque, eu iaculis ligula ullamcorper. In lobortis nisi ut massa cursus rutrum. Maecenas
+                        eget egestas mi."
+                    </p>
+                </div>
+
+            </div>
+        </div>
+
+    </div>
+</body>
+
+</html>
